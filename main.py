@@ -77,7 +77,7 @@ else:
     turn_on.click()
 
 
-time.sleep(3)
+time.sleep(4)
 
 maybe_later_btn = driver.find_element(By.XPATH, "/html/body/div[2]/main/div/div/div[3]/button[2]/span")
 maybe_later_btn.click()
@@ -89,7 +89,9 @@ time.sleep(3)
 
 go_right_btn = driver.find_element(By.XPATH, "/html/body/div[1]/div/div[1]/div/main/div[1]/div/div/div[1]/div[1]/div/div[3]/div/div[4]/button/span/span")
 
-while True:
+have_some_likes_left = True
+
+while have_some_likes_left:
     try:
         popup_again = driver.find_element(By.XPATH, "/html/body/div[2]/main/div/div[2]/button[2]/div[2]/div[2]")
     except selenium.common.exceptions.NoSuchElementException:
@@ -97,9 +99,17 @@ while True:
             another_popup = driver.find_element(By.XPATH, "/html/body/div[2]/main/div/div/div[3]/button[2]/span")
         except selenium.common.exceptions.NoSuchElementException:
             go_right_btn.click()
+            time.sleep(1)
+            try:
+                out_of_likes = driver.find_element(By.XPATH, "/html/body/div[2]/main/div/div[3]/button[2]/span")
+            except selenium.common.exceptions.NoSuchElementException:
+                pass
+            else:
+                out_of_likes.click()
+                have_some_likes_left = False
         else:
             another_popup.click()
     else:
         popup_again.click()
-    time.sleep(2)
+    time.sleep(1)
 
